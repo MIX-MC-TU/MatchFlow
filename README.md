@@ -14,6 +14,19 @@ MatchFlow
     |_fetch.js
     |_views.js
     |_crud.js
+  |_windows
+    |_admin
+      |_index.html
+      |_style.css
+      |_script.js
+    |_user
+      |_index.html
+      |_style.css
+      |_script.js
+    |_signup
+      |_index.html
+      |_style.css
+      |_script.js
   |_.gitignore
 ```
 
