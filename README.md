@@ -16,3 +16,15 @@ MatchFlow
     |_crud.js
   |_.gitignore
 ```
+
+
+## Install Json-server
+
+```
+Install in Backend directory (/Backend)
+1. npm i json-server
+
+execute in terminal in Backend directory (/Backend):
+2. npx json-server db.json
+
+```
