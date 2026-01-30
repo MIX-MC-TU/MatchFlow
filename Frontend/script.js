@@ -1,4 +1,4 @@
-import {fetchGet} from './modules/fetch.js'
+import {fetchGet,fetchPost} from './modules/fetch.js'
 
 document.addEventListener('DOMContentLoaded', () => {
   const tabs = document.querySelectorAll('.tab');
@@ -22,23 +22,69 @@ btnLogin.addEventListener('click',() =>{
     const takePassword = document.getElementById('password').value
     console.log(takeEmail);
     console.log(takePassword);
-    login(takeEmail);
+    login(takeEmail,takePassword);
+
+})
+const btnSign = document.getElementById('btnSingUp');
+btnSign.addEventListener('click',() =>{
+    const takeName = document.getElementById('nameSignUp').value
+    const takeEmail = document.getElementById('email-sign').value
+    const takePassword = document.getElementById('password-sign').value
+    const takeRol = "user"
+    const takeImg = document.getElementById('img-sing').value
+    const takeRolPosition = document.getElementById('rol-sign').value
+    const takeOpen = document.getElementById('openWork').value
+    const profile = "default profile"
+    const contact = "+57-25252525"
+    const linkedin = "https://co.linkedin.com/"
+
+    console.log(takeName);
+    console.log(takeEmail);
+    console.log(takePassword);
+    console.log(takeImg);
+    console.log(takeRol);
+    console.log(takeRolPosition);
+    console.log(takeOpen);
+
+    const data = {
+        name: takeName,
+        email: takeEmail,
+        password:takePassword,
+        rol: takeRol,
+        img:takeImg,
+        position_id:takeRolPosition,
+        availability_id:takeOpen,
+        profile:profile,
+        contact:contact,
+        linkefin:linkedin
+
+        
+    }
+    fetchPost('users',data)
+
 
 })
 
-async function login(email) {
+async function login(email,pass) {
 
     fetchGet('users')
     .then(result => {
-        console.log(result[0].email)
-        console.log(result);
         result.forEach(element => {
-            if(element.email === email){
-                alert("correo finded")
+            if(element.email === email && element.password === pass ){
+                alert("login")
+                if(element.rol === "Admin"){
+
+                    sessionStorage.setItem('id',element.id);
+                    sessionStorage.setItem('rol',element.rol);
+                    window.location.assign('windows/admin/index.html');
+                    
+                }else if(element.rol === "User"){
+                    sessionStorage.setItem('id',element.id);
+                    sessionStorage.setItem('rol',element.rol);  
+                    window.location.assign('windows/user/index.html');
+
+                }
             }
-            console.log(element.id);
-            console.log(element.name);
-            console.log(element.rol);
             
         });
     })

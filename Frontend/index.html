@@ -36,12 +36,22 @@
         <form id="signup-form" class="auth-view">
           <input id="nameSignUp" type="text" class="inputs mb-3" placeholder="Name" required>
           <input id="email-sign" type="email" class="inputs mb-3" placeholder="Email" required>
-          <div class="password-row">
-            <input id="password-sign" type="password" class="inputs" placeholder="Password" required>
-            <input id="confirm-password" type="password" class="inputs" placeholder="Confirm" required>
-          </div>
+          <input id="password-sign" type="password" class="inputs" placeholder="Password" required>
+          <input id="img-sing" type="url" class="inputs mb-3" placeholder="IMG-URL" required>
+          <select id="rol-sign" class="inputs mb-3 form-select" required>
+            <option value="" disabled selected>Position</option>
+            <option value="1">Backend Dev</option>
+            <option value="2">Frontend Dev</option>
+            <option value="3">Fullstack Dev</option>
+          </select>
+          <select id="openWork" class="inputs mb-3 form-select" required>
+            <option value="" disabled selected>Open To Work?</option>
+            <option value="1">YES</option>
+            <option value="2">NO</option>
+          </select>
+      
           <div id="signUp-message" class="mt-2 mb-3"></div>
-          <button type="submit" class="btn-primary">Create account</button>
+          <button id="btnSingUp" type="button" class="btn-primary">Create account</button>
         </form>
       </div>
 
