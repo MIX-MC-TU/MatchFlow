@@ -51,6 +51,19 @@
       "profile": "default profile",
       "contact": "+57-25252525",
       "linkefin": "https://co.linkedin.com/"
+    },
+    {
+      "id": "3d36",
+      "name": "juan",
+      "email": "perreo@gmail.com",
+      "password": "12345",
+      "rol": "User",
+      "img": "https://wooarts.com/caras-ionut",
+      "position_id": "2",
+      "availability_id": "1",
+      "profile": "default profile",
+      "contact": "+57-25252525",
+      "linkefin": "https://co.linkedin.com/"
     }
   ],
   "availability": [
