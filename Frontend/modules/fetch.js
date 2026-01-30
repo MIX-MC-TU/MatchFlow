@@ -1,7 +1,7 @@
 const URL = 'http://localhost:3000';
 
 //GET
-async function fetchGet(section) {
+export async function fetchGet(section) {
   try {
     const res = await fetch(`${URL}/${section}`);
     // console.log('GET:', res.json());
@@ -12,7 +12,7 @@ async function fetchGet(section) {
 }
 
 //GET BY ID
-async function fetchGetById(id,section) {
+export async function fetchGetById(id,section) {
   try {
     const res = await fetch(`${URL}/${section}/${id}`);
     // console.log('GET:', res.json());
@@ -23,7 +23,7 @@ async function fetchGetById(id,section) {
 }
 
 //POST
-async function fetchPost(section,data) {
+export async function fetchPost(section,data) {
   try {
     const res = await fetch(`${URL}/${section}`, {
       method: 'POST',
@@ -39,7 +39,7 @@ async function fetchPost(section,data) {
 }
 
 //PUT
-async function fetchPut(id,section,data) {
+export async function fetchPut(id,section,data) {
   try {
     const res = await fetch(`${URL}/${section}/${id}`, {
       method: 'PUT',
@@ -56,7 +56,7 @@ async function fetchPut(id,section,data) {
 }
 
 // DELETE
-async function fetchDelete(id,section) {
+export async function fetchDelete(id,section) {
   try {
     const res = await fetch(`${URL}/${section}/${id}`, {
       method: 'DELETE'
