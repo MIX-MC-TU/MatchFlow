@@ -1,0 +1,96 @@
+{
+    "users":[
+        {
+            "id": "1",
+            "name": "Super Admin",
+            "email": "admin@gmail.com",
+            "password": "123",
+            "rol": "Admin",
+            "img":"https://shop.nopcypher.com/images/extension/super-admin/superadmin-image.png",
+            "position_id": ["4"],
+            "profile": "Super Admin Page",
+            "contact": "+57333333333",
+            "linkedin": "https://co.linkedin.com/"
+        },
+        {
+            "id": "2",
+            "name": "user",
+            "email": "user@gmail.com",
+            "password": "123",
+            "rol": "User",
+            "img": "https://e7.pngegg.com/pngimages/46/258/png-clipart-faces-faces-thumbnail.png",
+            "position_id": ["1"],
+            "availability_id":"1", 
+            "profile": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+            "contact": "+57333333333",
+            "linkedin": "https://co.linkedin.com/"
+        }
+    ],
+    "availability":[
+        {
+            "id": "1",
+            "name": "Abierto a Trabajar"
+        },
+        {
+            "id": "2",
+            "name": "NO Disponible"
+        }
+    ],
+    "positions":[
+        {
+            "id": "1",
+            "name": "Backend Dev"
+        },
+        {
+            "id": "2",
+            "name": "Frontend Dev"
+        },
+                {
+            "id": "3",
+            "name": "Fullstack Dev"
+        },
+        {
+            "id": "4",
+            "name": "Administrador"
+        }
+    ],
+    "jobs":[
+        {
+            "id": "1",
+            "name": "Backend Dev",
+            "description": "t is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
+            "position_id": ["1"]
+        }
+    ],
+    "job_match_categories":[
+        {
+            "id": "1",
+            "name": "pending"
+        },
+        {
+            "id": "2",
+            "name": "contacted"
+        },
+                {
+            "id": "3",
+            "name": "interview"
+        },
+        {
+            "id": "4",
+            "name": "hires"
+        },
+        {
+            "id": "4",
+            "name": "discarded"
+        }
+    ],
+    "user_job_match": [
+        {
+            "id": "1",
+            "user_id": "2",
+            "job_id": "1",
+            "job_match_categories_id": "1"
+        }
+    ]
+
+}
