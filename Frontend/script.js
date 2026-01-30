@@ -38,13 +38,6 @@ btnSign.addEventListener('click',() =>{
     const contact = "+57-25252525"
     const linkedin = "https://co.linkedin.com/"
 
-    console.log(takeName);
-    console.log(takeEmail);
-    console.log(takePassword);
-    console.log(takeImg);
-    console.log(takeRol);
-    console.log(takeRolPosition);
-    console.log(takeOpen);
 
     const data = {
         name: takeName,
