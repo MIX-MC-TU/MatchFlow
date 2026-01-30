@@ -14,3 +14,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+const btnLogin = document.getElementById('btnLogin');
+btnLogin.addEventListener('click',() =>{
+    const takeEmail = document.getElementById('email').value
+    const takePassword = document.getElementById('password').value
+    console.log(takeEmail);
+    console.log(takePassword);
+    login(takeEmail,takePassword)
+
+})
+
+
