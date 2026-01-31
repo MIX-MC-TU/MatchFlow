@@ -28,19 +28,6 @@
       "profile": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
       "contact": "+57333333333",
       "linkedin": "https://co.linkedin.com/"
-    },
-    {
-      "id": "1420",
-      "name": "Camilo",
-      "email": "perreo@gmail.com",
-      "password": "1234",
-      "rol": "User",
-      "img": "https://img.freepik.com/foto-gratis/retrato-hombre-blanco-aislado_53876-40306.jpg?semt=ais_hybrid&w=740&q=80",
-      "position_id": "2",
-      "availability_id": "1",
-      "profile": "default profile",
-      "contact": "+57-25252525",
-      "linkefin": "https://co.linkedin.com/"
     }
   ],
   "availability": [
