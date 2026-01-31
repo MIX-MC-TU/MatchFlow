@@ -1,5 +1,4 @@
 import {fetchGet,fetchPost} from './modules/fetch.js'
-
 document.addEventListener('DOMContentLoaded', () => {
   const tabs = document.querySelectorAll('.tab');
   const views = document.querySelectorAll('.auth-view');
