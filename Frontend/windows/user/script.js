@@ -1,41 +1,91 @@
 import { fetchGet, fetchGetById } from '../../modules/fetch.js'
 
-
-// validacion de autenticacion USER
+// ================= VALIDACIÓN =================
 async function validation() {
     if (sessionStorage.getItem('rol') === 'Admin') {
-        // console.log("Admin")
         window.location.assign('../admin/index.html');
     }
-    if (sessionStorage.getItem('rol') === null || sessionStorage.getItem('rol') === '') {
-        // console.log("login")
+    if (!sessionStorage.getItem('rol')) {
         window.location.assign('../../index.html');
     }
 }
 
-
-document.getElementById("saveProfile").addEventListener("click", () => {
-    // inputs del modal
-    const name = document.getElementById("name").value;
-    const jobSelect = document.getElementById("jobType");
-    const job = jobSelect.options[jobSelect.selectedIndex].text;
-    const description = document.getElementById("description").value;
-
-    // card de perfil
-    document.getElementById("profileName").textContent = name || "User Name";
-    document.getElementById("profileJob").textContent = job;
-    document.getElementById("profileDescription").textContent =
-        description || "User description";
-
-    // cerrar modal
-    const modal = bootstrap.Modal.getInstance(
-        document.getElementById("ideaModal")
-    );
-    modal.hide();
-
-
+// ================= LOGOUT =================
+const logoutBtn = document.getElementById('logoutBtn');
+logoutBtn?.addEventListener('click', (e) => {
+    e.preventDefault();
+    sessionStorage.clear();
+    window.location.href = '../../index.html';
 });
 
+// ================= CARGAR USUARIO EN MODAL =================
+window.loadUserInModal = async function () {
+    const id = sessionStorage.getItem('id');
+    if (!id) return console.error('No user id in sessionStorage');
+
+    try {
+        const user = await fetchGetById(id, 'users');
+
+        document.getElementById("name").value = user.name || '';
+        document.getElementById("email").value = user.email || '';
+        document.getElementById("description").value = user.profile || '';
+        document.getElementById("contact").value = user.contact || '';
+        document.getElementById("linkedin").value = user.linkedin || '';
+        document.getElementById("jobType").value = user.position_id || '';
+        document.getElementById("password").value = '';
+    } catch (err) {
+        console.error('Error loading user:', err);
+    }
+}
+
+// ================= GUARDAR CAMBIOS =================
+document.getElementById("saveProfile").addEventListener("click", async (e) => {
+    e.preventDefault();
+
+    const id = sessionStorage.getItem('id');
+    if (!id) return console.error('No user id in sessionStorage');
+
+    const password = document.getElementById("password").value;
+
+    const updatedUser = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        profile: document.getElementById("description").value,
+        contact: document.getElementById("contact").value,
+        linkedin: document.getElementById("linkedin").value,
+        position_id: Number(document.getElementById("jobType").value)
+    };
+
+    if (password) updatedUser.password = password;
+
+    try {
+        const response = await fetch(`http://localhost:3000/users/${id}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updatedUser)
+        });
+
+        if (!response.ok) {
+            const text = await response.text();
+            throw new Error(`Failed PATCH: ${response.status} ${text}`);
+        }
+
+        console.log('User updated successfully in json-server');
+
+        // cerrar modal
+        const modal = bootstrap.Modal.getInstance(
+            document.getElementById("ideaModal")
+        );
+        modal.hide();
+
+        renderUserCard();
+    } catch (err) {
+        console.error('Error updating user:', err);
+        alert('No se pudo actualizar el usuario. Revisa consola.');
+    }
+});
+
+// ================= CATEGORÍAS =================
 function categories(id) {
     const cate = {
         "1": "pending",
@@ -44,160 +94,77 @@ function categories(id) {
         "4": "hired",
         "5": "discarded"
     }
-
-    return cate[id]
-    
+    return cate[id];
 }
 
+// ================= RENDER USER =================
 async function renderUserCard() {
     validation();
 
     const id = sessionStorage.getItem('id');
     const card_user = document.querySelector('.user-card');
 
-    fetchGetById(id, 'users')
-        .then(result => {
-            card_user.innerHTML = `        
+    try {
+        const result = await fetchGetById(id, 'users');
+
+        card_user.innerHTML = `        
         <div class="sidebar sticky-top" style="top: 2rem;">
           <div class="sidebar-action mb-4 d-flex flex-column">
             <div class="card-img d-flex justify-content-center">
               <img class="w-25 rounded-circle" src="${result.img}" alt="">
             </div>
             <div class="card-body d-flex flex-column align-items-center gap-1">
-              <div class="">
-                <h5 class="fw-bold">${result.name}</h5>
-              </div>
-              <div>
-                <h5 class="text-secondary">${result.email}</h5>
-              </div>
-              <div>
-                <h5 class="text-secondary position">${result.position_id}</h5>
-              </div>
-              <div>
-                <h5 class="text-secondary availability">${result.availability_id}</h5>
-              </div>
-              <div>
-                <p class="text-center">${result.profile}</p>
-              </div>
-              <div>
-                <h5 class="text-secondary">${result.contact}</h5>
-              </div>
-              <div>
-                <h5 class="text-secondary">${result.linkedin}</h5>
-              </div>
+              <div><h5 class="fw-bold">${result.name}</h5></div>
+              <div><h5 class="text-secondary">${result.email}</h5></div>
+              <div><h5 class="text-secondary position">${result.position_id}</h5></div>
+              <div><h5 class="text-secondary availability">${result.availability_id}</h5></div>
+              <div><p class="text-center">${result.profile}</p></div>
+              <div><h5 class="text-secondary">${result.contact}</h5></div>
+              <div><h5 class="text-secondary">${result.linkedin}</h5></div>
             </div>
           </div>
-
         </div>
         `;
 
-            fetchGet('positions')
-                .then(posi => {
-                    const position = document.querySelector('.position');
-                    posi.forEach(element => {
-                        if (result.position_id[0] === element.id) {
-                            position.textContent = element.name;
-                        }
-                    });
+        const positions = await fetchGet('positions');
+        positions.forEach(el => {
+            if (result.position_id == el.id) document.querySelector('.position').textContent = el.name;
+        });
 
-                }
+        const availabilities = await fetchGet('availability');
+        availabilities.forEach(el => {
+            if (result.availability_id == el.id) document.querySelector('.availability').textContent = el.name;
+        });
 
-                )
-                .catch(e => console.log(e));
+    } catch (err) {
+        console.error('Error rendering user card:', err);
+    }
 
-            fetchGet('availability')
-                .then(avi => {
-                    const availability = document.querySelector('.availability');
-                    avi.forEach(element => {
-                        if (result.availability_id === element.id) {
-                            availability.textContent = element.name;
-                        }
-                    });
-
-                }
-
-                )
-                .catch(e => console.log(e));
-
-        })
-        .catch(e => console.log(e))
-
+    // RENDER MATCHES
     const match = document.querySelector('.match');
-    fetchGet('user_job_match')
-        .then(job => {
+    try {
+        const jobs = await fetchGet('user_job_match');
+        match.innerHTML = ''; // limpiar previos
 
-            job.forEach(p => {
-                if (id === p.user_id) {
-                    match.innerHTML += `
+        jobs.forEach(async p => {
+            if (id == p.user_id) {
+                const userData = await fetchGetById(p.user_id, 'users');
+                const jobData = await fetchGetById(p.job_id, 'jobs');
 
-          <div class="card border-0 shadow-sm bg-light d-flex flex-column align-items-center h-25">
-            <div>
-              <span>${p.id}</span>
-            </div>
-            <div>
-              <span class="user_id">${p.user_id}</span>
-            </div>
-            <div>
-              <span class="job_id">${p.job_id}</span>
-            </div>
-            <div>
-              <span class="job_position">${p.job_id}</span>
-            </div>
-            <div>
-              <span class="match_job"></span>
-            </div>
-            <div>
-              <span class"state">${categories(p.job_match_categories_id)}</span>
-            </div>
-          </div>
+                match.innerHTML += `
+                  <div class="card border-0 shadow-sm bg-light d-flex flex-column align-items-center h-25">
+                    <span>${p.id}</span>
+                    <span class="user_id">${userData.name}</span>
+                    <span class="job_id">${jobData.factory}</span>
+                    <span class="job_position">${jobData.name}</span>
+                    <span>${categories(p.job_match_categories_id)}</span>
+                  </div>
                 `;
-
-
-                    // Cambio de estados
-                    fetchGetById(p.user_id,'users')
-                        .then(u => {
-                            const user_id = document.querySelector('.user_id');
-                            user_id.textContent = u.name
-
-                        }
-
-                        )
-                        .catch(e => console.log(e));
-
-                    fetchGetById(p.job_id,'jobs')
-                        .then(j => {
-                            const job_id = document.querySelector('.job_id');
-                            const job_position = document.querySelector('.job_position');
-
-                            job_id.textContent = j.factory
-                            job_position.textContent = j.name
-
-                        }
-
-                        )
-                        .catch(e => console.log(e));
-
-                    // fetchGetById(p.job_match_categories_id,'job_match_categories')
-                    //     .then(j => {
-
-                            // const m_state = document.querySelector('.state');
-
-                            // console.log(j.category)
-                            // m_state.textContent = j.category;
-                            // m_state.textContent = JSON.stringify(j.name)
-
-                        // }
-
-                        // )
-                        // .catch(e => console.log(e));
-                }
-
-            });
-
-
-        })
-        .catch(e => console.log(e))
-
+            }
+        });
+    } catch (err) {
+        console.error('Error rendering matches:', err);
+    }
 }
 
 renderUserCard();
