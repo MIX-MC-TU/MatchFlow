@@ -63,7 +63,6 @@ async function login(email,pass) {
     .then(result => {
         result.forEach(element => {
             if(element.email === email && element.password === pass ){
-                alert("login")
                 if(element.rol === "Admin"){
 
                     sessionStorage.setItem('id',element.id);
