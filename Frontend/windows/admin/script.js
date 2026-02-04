@@ -1,173 +1,211 @@
-import { fetchGet, fetchGetById } from '../../modules/fetch.js'
+import { fetchGet, fetchGetById, fetchPost } from '../../modules/fetch.js'
 
+// validation
+document.addEventListener('DOMContentLoaded', () => {
+    const localsesion = sessionStorage.getItem('id') || null;
+    const localsesion_loggedin = sessionStorage.getItem('loggedin') || null;
 
-// validacion de autenticacion USER
-async function validation() {
-    if (sessionStorage.getItem('rol') === 'User') {
-        // console.log("Admin")
-        window.location.assign('../user/index.html');
+    if (localsesion !== null && localsesion_loggedin === 'true') {
+        fetchGetById(localsesion, 'users')
+            .then(result => {
+
+                if (result.rol === 'User') {
+                    sessionStorage.setItem('loggedin', false);
+                    window.location = '../user/index.html'
+                }
+            })
+
+    } else {
+        window.location = '../../index.html'
     }
-    if (sessionStorage.getItem('rol') === null || sessionStorage.getItem('rol') === '') {
-        // console.log("login")
-        window.location.assign('../../index.html');
-    }
-}
+})
 
+//logout button
+document.querySelector('.logout-btn')
+    .addEventListener('click', () => {
+        sessionStorage.clear()
+        window.location.reload(true);
+    })
 
-async function renderUserCard() {
-    validation();
-
-    const id = sessionStorage.getItem('id');
-    const card_user = document.querySelector('.user-card');
-
+// show a specific user by id
+export async function showSpecificUser(id) {
+    sessionStorage.setItem('userChosen', id);
     fetchGetById(id, 'users')
-        .then(result => {
-            card_user.innerHTML = `        
-        <div class="sidebar sticky-top" style="top: 2rem;">
-          <div class="sidebar-action mb-4 d-flex flex-column">
-            <div class="card-img d-flex justify-content-center">
-              <img class="w-25 rounded-circle" src="${result.img}" alt="">
-            </div>
-            <div class="card-body d-flex flex-column align-items-center gap-1">
-              <div class="">
-                <h5 class="fw-bold">${result.name}</h5>
-              </div>
-              <div>
-                <h5 class="text-secondary">${result.email}</h5>
-              </div>
-              <div>
-                <h5 class="text-secondary position">${result.position_id}</h5>
-              </div>
-              <div>
-                <p class="text-center">${result.profile}</p>
-              </div>
-              <div>
-                <h5 class="text-secondary">${result.contact}</h5>
-              </div>
-              <div>
-                <h5 class="text-secondary">${result.linkedin}</h5>
-              </div>
-            </div>
-          </div>
+        .then(user => {
 
-        </div>
-        `;
-
-            fetchGet('positions')
-                .then(posi => {
-                    const position = document.querySelector('.position');
-                    posi.forEach(element => {
-                        if (result.position_id[0] === element.id) {
-                            position.textContent = element.name;
-                        }
-                    });
-
-                }
-
-                )
-                .catch(e => console.log(e));
-
-            fetchGet('availability')
-                .then(avi => {
-                    const availability = document.querySelector('.availability');
-                    avi.forEach(element => {
-                        if (result.availability_id === element.id) {
-                            availability.textContent = element.name;
-                        }
-                    });
-
-                }
-
-                )
-                .catch(e => console.log(e));
-
-        })
-        .catch(e => console.log(e))
-
-    const match = document.querySelector('.match');
-    fetchGet('user_job_match')
-        .then(job => {
-
-            job.forEach(p => {
-                if (id === p.user_id) {
-                    match.innerHTML += `
-
-          <div class="card border-0 shadow-sm bg-light d-flex flex-column align-items-center h-25">
-            <div>
-              <span>${p.id}</span>
-            </div>
-            <div>
-              <span class="user_id">${p.user_id}</span>
-            </div>
-            <div>
-              <span class="job_id">${p.job_id}</span>
-            </div>
-            <div>
-              <span class="job_position">${p.job_id}</span>
-            </div>
-            <div>
-              <span class="match_job"></span>
-            </div>
-            <div>
-              <span class"state">${categories(p.job_match_categories_id)}</span>
-            </div>
-          </div>
-                `;
+            document.querySelector('.user_profile').innerHTML = `
+                        <div class="card-img d-flex justify-content-center">
+                            <img class="img-fluid rounded-circle w-50" src="${user.img}" alt="">
+                        </div>
+                        <div class="card-text">
+                            <span class="fw-bold">${user.name}</span>
+                        </div>
+                        <div class="card-text">
+                            <span class="fw-light availability_id">${user.availability_id}</span>
+                        </div>
+                        <div class="card-text">
+                            <span class="fw-light">${user.email}</span>
+                        </div>
+                        <div class="card-text">
+                            <span class="fw-light">${user.rol}</span>
+                        </div>
+                        <div class="card-text">
+                            <span class="fw-light position_id">${user.position_id}</span>
+                        </div>
+                        <div class="card-text">
+                            <span class="fw-light">${user.profile}</span>
+                        </div>
+                        <div class="card-text">
+                            <span class="fw-light">${user.contact}</span>
+                        </div>
+                        <div class="card-text">
+                            <span class="fw-light">${user.linkedin}</span>
+                        </div>
+                    `;
 
 
-                    // Cambio de estados
-                    fetchGetById(p.user_id,'users')
-                        .then(u => {
-                            const user_id = document.querySelector('.user_id');
-                            user_id.textContent = u.name
+            fetchGetById(user.availability_id, 'availability')
+                .then(availa => {
+                    document.querySelector('.availability_id').textContent = availa.name
+                })
+                .catch(e => console.log(e))
 
-                        }
-
-                        )
-                        .catch(e => console.log(e));
-
-                    fetchGetById(p.job_id,'jobs')
-                        .then(j => {
-                            const job_id = document.querySelector('.job_id');
-                            const job_position = document.querySelector('.job_position');
-
-                            job_id.textContent = j.factory
-                            job_position.textContent = j.name
-
-                        }
-
-                        )
-                        .catch(e => console.log(e));
-
-                    // fetchGetById(p.job_match_categories_id,'job_match_categories')
-                    //     .then(j => {
-
-                            // const m_state = document.querySelector('.state');
-
-                            // console.log(j.category)
-                            // m_state.textContent = j.category;
-                            // m_state.textContent = JSON.stringify(j.name)
-
-                        // }
-
-                        // )
-                        // .catch(e => console.log(e));
-                }
-
-            });
+            fetchGetById(user.position_id, 'positions')
+                .then(pos => {
+                    document.querySelector('.position_id').textContent = pos.name
+                })
+                .catch(e => console.log(e))
 
 
+            showAllJobsApplies(user.position_id)
         })
         .catch(e => console.log(e))
 
 }
+async function companyName(id) {
+    try {
+        const company = await fetchGetById(id, 'comapanies');
+        return company.name;
+    } catch (error) {
+        console.error(error);
+        return '';
+    }
+}
 
-// ================= LOGOUT =================
-const logoutBtn = document.getElementById('logoutBtn');
-logoutBtn?.addEventListener('click', (e) => {
-    e.preventDefault();
-    sessionStorage.clear();
-    window.location.href = '../../index.html';
+export async function showAllJobsApplies(position_id) {
+    try {
+        document.querySelector('.jobs-zone').innerHTML = ''
+        const jobs = await fetchGet('jobs');
+        const position = await fetchGetById(position_id, 'positions');
+
+        const filteredJobs = jobs.filter(job => job.position_id === position_id);
+
+        const jobsHTML = await Promise.all(
+            filteredJobs.map(async job => {
+                const company = await companyName(job.company_id);
+
+                return `
+                    <div class="col col-lg-12 h-25 mb-2">
+                    <div class="card d-flex flex-row justify-content-center align-items-center">
+                        <div class="card-body d-flex justify-content-around align-items-center">
+                        <span>${job.id}</span>
+                        <span>${company}</span>
+                        <span>${position.name}</span>
+
+                        <button 
+                            class="btn btn-sm btn-outline-primary open-job-match"
+                            data-job-id="${job.id}">
+                            Change status
+                        </button>
+                        </div>
+                    </div>
+                    </div>`;
+            })
+        );
+
+        document.querySelector('.jobs-zone').innerHTML += jobsHTML.join('');
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+//modal status
+document.addEventListener('click', async (e) => {
+    if (!e.target.classList.contains('open-job-match')) return;
+
+    const jobId = e.target.dataset.jobId;
+    sessionStorage.setItem('jobChosen', jobId);
+
+    const select = document.getElementById('jobMatchSelect');
+    select.innerHTML = '<option value="">Select status</option>';
+
+    const categories = await fetchGet('job_match_categories');
+
+    categories.forEach(cat => {
+        select.innerHTML += `
+            <option value="${cat.id}">${cat.name}</option>
+        `;
+    });
+
+    new bootstrap.Modal(
+        document.getElementById('jobMatchModal')
+    ).show();
 });
-renderUserCard();
 
+//guardar satus
+document.getElementById('saveJobMatch')
+  .addEventListener('click', async () => {
+
+    const categoryId = document.getElementById('jobMatchSelect').value;
+    const userId = sessionStorage.getItem('userChosen');
+    const jobId = sessionStorage.getItem('jobChosen');
+
+    if (!categoryId || !userId || !jobId) return;
+
+    const newMatch = {
+        user_id: userId,
+        job_id: jobId,
+        job_match_categories_id: categoryId
+    };
+
+    fetchPost('user_job_match',newMatch)
+    .then(result =>{
+        bootstrap.Modal.getInstance(
+            document.getElementById('jobMatchModal')
+        ).hide();
+    })
+    .catch(e => console.log(e));
+
+});
+
+
+
+// <!--users fillter-->
+document.querySelector('#user_section_form')
+    .addEventListener('change', (event) => { showSpecificUser(event.target.value) })
+
+export async function showListUsers() {
+    try {
+        const users = await fetchGet('users');
+        const userSectionForm = document.getElementById('user_section_form');
+
+        userSectionForm.innerHTML += users
+            .filter(user => user.availability_id === '1' && user.rol !== 'Admin')
+            .map(user => `<option data-id=${user.id} value="${user.id}">${user.name}</option>`)
+            .join('');
+
+        const userChosen = sessionStorage.getItem('userChosen') || null;
+        // console.log(userChosen);
+
+        if (userChosen !== null) {
+            showSpecificUser(userChosen);
+        }
+
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+showListUsers();

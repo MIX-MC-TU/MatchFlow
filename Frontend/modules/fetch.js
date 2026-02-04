@@ -32,7 +32,7 @@ export async function fetchPost(section,data) {
       },
       body: JSON.stringify(data)
     });
-    return await res.json();
+    return [await res.json(), true];
   } catch (error) {
     console.error('Error en POST:', error);
   }

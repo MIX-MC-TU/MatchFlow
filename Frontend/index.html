@@ -1,106 +1,60 @@
-<!doctype html>
-<html lang="es">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Bootstrap 5.3 CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Google Fonts: Inter + Poppins (de tu styles.css) -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <title>MatchFlow</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOGIN | MatchFlow</title>
+
+    <!--Boostrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <!--Boostrap Icon-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 
 </head>
-<body>
-  <main class="auth-layout">
-    <!-- === LEFT PANEL === -->
-    <section class="auth-left">
-      <div class="auth-card">
-        <h1 class="auth-brand">MatchFlow</h1>
+<body class="bg-light">
+    <div class="container">
+        <div class="row vh-100 d-flex justify-content-center">
+            <div class="col col-lg-6 d-flex justify-content-center align-items-center">
+                <div class="card w-auto h-auto border-0 shadow-lg p-4 d-flex justify-content-center">
+                    <form class="form" action="">
+                        <div class="d-flex flex-column justify-content-center">
+                            <div class="d-flex justify-content-center text-primary">
+                                <i class="bi bi-person-badge-fill" style="font-size: 2rem;"></i>
 
-        <!-- TABS -->
-        <div class="auth-tabs">
-          <button class="tab active" data-view="login" type="button">Login</button>
-          <button class="tab" data-view="signup" type="button">Sign Up</button>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <span class="text-black fw-bold align-content-center" style="font-size: 2rem;">MatchFlow</span>
+
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <label class="form-label" for="">Email <span class="text-danger">*</span></label>
+                            <input class="form-control" type="email" name="" id="email" placeholder="Correo electronico" required>
+                        </div>
+                        <div class="mt-4">
+                            <label class="form-label" for="">Password <span class="text-danger">*</span></label>
+                            <input class="form-control" type="" name="" id="password" placeholder="Contraseña" required>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button type="button" class="btn btn-primary form-control mt-3 login-btn">Log In</button>
+                        </div>
+                        <div class="mt-4">
+                            <span class="text-secondary text-sm-end">Don't have an account? <span><a class="link-dark fw-bold" href="./windows/signup/index.html">Sing up</a></span></span>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
         </div>
+    </div>
 
-        <!-- LOGIN FORM -->
-        <form id="login-form" class="auth-view active">
-          <input type="email" id="email" class="inputs mb-3" placeholder="Email" required>
-          <input type="password" id="password" class="inputs mb-3" placeholder="Password" required>
-          <button type="button" id="btnLogin" class="btn-primary mb-3">Enter</button>
-          <div id="login-message"></div>
-        </form>
 
-        <!-- SIGNUP FORM -->
-        <form id="signup-form" class="auth-view">
-          <input id="nameSignUp" type="text" class="inputs mb-3" placeholder="Name" required>
-          <input id="email-sign" type="email" class="inputs mb-3" placeholder="Email" required>
-          <input id="password-sign" type="password" class="inputs" placeholder="Password" required>
-          <input id="img-sing" type="url" class="inputs mb-3" placeholder="IMG-URL" required>
-          <select id="rol-sign" class="inputs mb-3 form-select" required>
-            <option value="" disabled selected>Position</option>
-            <option value="1">Backend Dev</option>
-            <option value="2">Frontend Dev</option>
-            <option value="3">Fullstack Dev</option>
-          </select>
-          <select id="openWork" class="inputs mb-3 form-select" required>
-            <option value="" disabled selected>Open To Work?</option>
-            <option value="1">YES</option>
-            <option value="2">NO</option>
-          </select>
-      
-          <div id="signUp-message" class="mt-2 mb-3"></div>
-          <button id="btnSingUp" type="button" class="btn-primary">Create account</button>
-        </form>
-      </div>
+    <!--JS-->
+    <script type="module" src="./script.js"></script>
 
-      <!-- Divider -->
-      <div class="auth-divider">
-        <span>or continue with</span>
-      </div>
-
-      <!-- Social Login -->
-      <div class="auth-social-group">
-        <button type="button" class="btn-social">
-          <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google">
-          Google
-        </button>
-        <button type="button" class="btn-social">
-          <img src="https://www.svgrepo.com/show/475647/facebook-color.svg" alt="Facebook">
-          Facebook
-        </button>
-      </div>
-    </section>
-
-    <!-- === RIGHT PANEL === -->
-    <section class="auth-right">
-      <!-- Wave SVG -->
-      <svg class="auth-wave" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-        <path d="M0,0 L0,100 L15,100 C40,75 40,25 15,0 Z" fill="white" />
-      </svg>
-
-      <div class="auth-right-content">
-        <div class="auth-info-box">
-          <span class="auth-badge">✨MatchFlow</span>
-          <h2>Searching work?<br>we search a oportunity for you</h2>
-          <p>Join +2,000 developers building the future</p>
-        </div>
-
-        <div class="auth-image-container">
-          <img src="../assets-img/auth-illustration.svg" alt="App Dashboard Preview" class="auth-image">
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- Bootstrap JS (para tabs si usas BS tabs) -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- Tus JS files -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script type="module" src="script.js"></script>
-  <script type="module" src="./modules/fetch.js"></script>
-
+    <!--Sweetalert-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>

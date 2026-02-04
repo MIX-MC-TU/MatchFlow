@@ -1,12 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>SIGNUP | MatchFlow</title>
+
+    <!--Boostrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <!--Boostrap Icon-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
 </head>
-<body>
-    
+
+<body class="bg-light">
+    <div class="container">
+        <div class="row vh-100 d-flex justify-content-center">
+            <div class="col col-lg-6 d-flex justify-content-center align-items-center">
+                <div class="card w-75 h-auto border-0 shadow-lg p-4 d-flex justify-content-center">
+                    <form class="form" action="">
+                        <div class="d-flex flex-column justify-content-center">
+                            <div class="d-flex justify-content-center text-primary">
+                                <i class="bi bi-person-badge-fill" style="font-size: 2rem;"></i>
+
+
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <span class="text-black fw-bold align-content-center"
+                                    style="font-size: 2rem;">MatchFlow</span>
+
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <label class="form-label" for="">Name <span class="text-danger">*</span></label>
+                            <input class="form-control" type="text" name="" id="name" placeholder="Nombre Completo"
+                                required>
+                        </div>
+                        <div class="mt-4">
+                            <label class="form-label" for="">Email <span class="text-danger">*</span></label>
+                            <input class="form-control" type="email" name="" id="email" placeholder="Correo electronico"
+                                required>
+                        </div>
+                        <div class="mt-4">
+                            <label class="form-label" for="">Password <span class="text-danger">*</span></label>
+                            <input class="form-control" type="" name="" id="password" placeholder="Contraseña" required>
+                        </div>
+                        <div class="mt-4">
+                            <label class="form-label" for="">Position <span class="text-danger">*</span></label>
+                            <select class="form-select" name="" id="position_id">
+                                <option class="user-select-none" value="">---</option>
+                                <option value="1">Backend Dev</option>
+                                <option value="2">Frontend Dev</option>
+                                <option value="3">Fullstack Dev</option>
+                            </select>
+                        </div>
+                        <div class="mt-4">
+                            <label class="form-label" for="">Availability <span class="text-danger">*</span></label>
+                            <select class="form-select" name="" id="availability_id">
+                                <option class="user-select-none" value="">---</option>
+                                <option value="1">Open to work</option>
+                                <option value="2">Not available to work</option>
+                            </select>
+                        </div>
+                        <div class="mt-4">
+                            <label class="form-label" for="">Contact <span class="text-danger">*</span></label>
+                            <input class="form-control" type="tel" name="" id="contact" placeholder="Celular" required>
+                        </div>
+                        <div class="mt-4">
+                            <label class="form-label" for="">LinkedIn <span class="text-danger">*</span></label>
+                            <input class="form-control" type="" name="" id="linkedin" placeholder="LinkedIn URL" required>
+                        </div>
+
+
+                        <div class="d-flex justify-content-center">
+                            <button type="button" class="btn btn-primary form-control mt-3 signup-btn">Sign up</button>
+                        </div>
+                        <div class="mt-4">
+                            <span class="text-secondary text-sm-end">have an account? <span><a class="link-dark fw-bold"
+                                        href="../../index.html">Log In</a></span></span>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--JS-->
     <script type="module" src="./script.js"></script>
+    
+    <!--Sweetalert-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
+
 </html>
