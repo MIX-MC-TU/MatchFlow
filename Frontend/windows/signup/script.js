@@ -1,35 +1,42 @@
-import { fetchGet, fetchPost } from '../../modules/fetch.js'
+import { fetchPost } from '../../modules/fetch.js'
 
 // REGISTER
-document.querySelector('.signup-btn')
-    .addEventListener('click', () => {
-        let username = document.getElementById('name');
-        let email = document.getElementById('email');
-        let password = document.getElementById('password');
-        let position_id = document.getElementById('position_id');
-        let availability_id = document.getElementById('availability_id');
-        let contact = document.getElementById('contact');
-        let linkedin = document.getElementById('linkedin');
+const signupBtn = document.querySelector('.signup-btn');
+signupBtn.addEventListener('click', () => {
+    const username = document.getElementById('name');
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    const position_id = document.getElementById('position_id');
+    const availability_id = document.getElementById('availability_id');
+    const contact = document.getElementById('contact');
+    const linkedin = document.getElementById('linkedin');
 
-        if (
-            username.value.trim() === '' ||
-            email.value.trim() === '' ||
-            password.value.trim() === '' ||
-            position_id.value.trim() === '' ||
-            availability_id.value.trim() === '' ||
-            contact.value.trim() === '' ||
-            linkedin.value.trim() === ''
-        ) {
-            Swal.fire({
-                icon: "error",
-                title: "HAY CAMPOS VACÍOS",
-                showConfirmButton: false,
-                timer: 2500
-            });
+    if (
+        username.value.trim() === '' ||
+        email.value.trim() === '' ||
+        password.value.trim() === '' ||
+        position_id.value.trim() === '' ||
+        availability_id.value.trim() === '' ||
+        contact.value.trim() === '' ||
+        linkedin.value.trim() === ''
+    ) {
+        Swal.fire({
+            icon: "error",
+            title: "HAY CAMPOS VACÍOS",
+            showConfirmButton: false,
+            timer: 2500
+        });
+    } else {
+        const originalText = signupBtn.innerHTML;
+        signupBtn.disabled = true;
+        signupBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Registrando...';
 
-        } else {
+        const resetButton = () => {
+            signupBtn.disabled = false;
+            signupBtn.innerHTML = originalText;
+        };
 
-            fetchPost('users', {
+        fetchPost('users', {
                 name: username.value,
                 email: email.value,
                 password: password.value,
@@ -41,13 +48,22 @@ document.querySelector('.signup-btn')
                 contact: contact.value,
                 linkedin: linkedin.value
             })
-                .then(result => {
-                    if (result[1]) {
-                        window.location = '../../index.html'
-                    }
-                })
-                .catch(e => console.log(e))
-        }
-
-
-    })
+            .then(result => {
+                if (result[1]) {
+                    window.location = '../../index.html';
+                } else {
+                    resetButton();
+                }
+            })
+            .catch(e => {
+                resetButton();
+                Swal.fire({
+                    icon: "error",
+                    title: "Error al registrar",
+                    text: "No se pudo completar el registro. Intenta nuevamente.",
+                    showConfirmButton: true
+                });
+                console.log(e);
+            });
+    }
+})

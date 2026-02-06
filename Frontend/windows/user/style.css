@@ -1,0 +1,35 @@
+/* Estilos base MatchFlow - transiciones y mejoras de UX */
+
+/* Transición suave en cards */
+.card {
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.12) !important;
+}
+
+/* Mejor focus visible para accesibilidad */
+.form-control:focus,
+.form-select:focus {
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.2);
+  border-color: #86b7fe;
+}
+
+/* Transición en botones */
+.btn {
+  transition: opacity 0.15s ease, background-color 0.15s ease;
+}
+
+.btn:not(:disabled):hover {
+  opacity: 0.92;
+}
+
+/* Enlaces con transición */
+a {
+  transition: color 0.15s ease, opacity 0.15s ease;
+}
+
+a:hover {
+  opacity: 0.85;
+}
